@@ -1,0 +1,153 @@
+/*For Creating Inventory Software  Database*/
+
+-- For Table Customer
+
+CREATE TABLE customer(
+customer_id INT NOT NULL AUTO_INCREMENT,
+customer_name VARCHAR(20),
+cutomer_contactname VARCHAR(20),
+customer_contactjobtitle VARCHAR(25),
+customer_mobilephone INT ,
+customer_fax VARCHAR(10),
+customer_email VARCHAR(100),
+customer_address VARCHAR(100),
+customer_city VARCHAR(100),
+customer_postalcode VARCHAR(100),
+customer_country VARCHAR(100),
+customer_salesrecptid VARCHAR(100),
+customer_creditlimit float,
+customer_homepage  VARCHAR(100),
+customer_panno INT,
+customer_gps FLOAT,
+PRIMARY KEY(customer_id)
+);
+
+
+CREATE TABLE products(
+product_id INT NOT NULL AUTO_INCREMENT,
+product_name VARCHAR(100),
+product_description VARCHAR(10),
+product_costprice FLOAT,
+product_sellprice FLOAT,
+product_cutprice FLOAT,
+product_stock INT,
+product_image VARCHAR(300),
+product_unitsonorder INT,
+product_orderlevel INT,
+product_parentcategory VARCHAR(50),
+product_rating INT,
+product_category VARCHAR(50),
+product_location VARCHAR(20),
+product_warrenty DATE,
+PRIMARY KEY(product_id)
+);
+
+CREATE TABLE orders(
+order_id INT NOT NULL AUTO_INCREMENT,
+customer_id INT,
+order_date DATE,
+order_requireddate DATE,
+order_status enum('delivered', 'notdelivered'),
+order_type enum('cart', 'order'),
+order_stock INT,
+order_shippeddate DATE ,
+order_shippername INT,
+order_shiptoname INT,
+order_shipaddress VARCHAR(100),
+order_shiptocity VARCHAR(100),
+order_shiptopostalcode INT,
+user_id int(11),
+PRIMARY KEY(order_id)
+);
+
+CREATE TABLE supplier(
+supplier_id INT NOT NULL AUTO_INCREMENT,
+supplier_name VARCHAR(100),
+supplier_contactname VARCHAR(10),
+supplier_contactjobtitle VARCHAR(25),
+supplier_mobilephone VARCHAR(10),
+supplier_fax VARCHAR(10),
+supplier_email VARCHAR(100),
+supplier_address VARCHAR(100),
+supplier_city VARCHAR(100),
+supplier_postalcode VARCHAR(100),
+supplier_country VARCHAR(100),
+supplier_creditlimit float,
+supplier_homepage  VARCHAR(100),
+supplier_panno VARCHAR(100),
+PRIMARY KEY(supplier_id)
+);
+
+CREATE TABLE users(
+user_id INT NOT NULL AUTO_INCREMENT,
+user_name VARCHAR(10),
+password VARCHAR(10),
+user_type VARCHAR(1),
+user_email VARCHAR(20),
+user_phone INT, 
+PRIMARY KEY(user_id)
+);
+
+CREATE TABLE purchase(
+purchase_id INT NOT NULL AUTO_INCREMENT,
+supplier_id INT,
+order_id INT,
+purchase_date DATE,
+Items_no INT,
+Invoice_id INT,
+PRIMARY KEY(purchase_id)
+);
+
+CREATE TABLE salesreturn(
+salesreturn_id INT NOT NULL AUTO_INCREMENT,
+purchase_id INT,
+supplier_id INT,
+order_id INT,
+customer_id INT,
+salesreturn_date DATE,
+items_no INT,
+PRIMARY KEY(salesreturn_id)
+);
+
+CREATE TABLE cheque(
+cheque_id INT NOT NULL AUTO_INCREMENT,
+bank_name VARCHAR(50),
+cheque_no INT,
+chequeserial_no INT,
+chequeissuedate DATE,
+cheque_amt INT,
+cheque_receiverid VARCHAR(50),
+customer_id INT,
+cheque_clearedstatus VARCHAR(1),
+PRIMARY KEY(cheque_id)
+);
+
+CREATE TABLE expenses(
+expenses_name varchar(5),
+expenses_amt INT,
+expenses_date DATE,
+user_id int(11),
+PRIMARY KEY(expenses_name)
+);
+
+Alter Table orders Add Foreign Key(customer_id) REFERENCES customer(customer_id);
+Alter Table orders Add Foreign Key(user_id) REFERENCES users(user_id);
+
+Alter Table salesreturn Add Foreign Key(customer_id) REFERENCES customer(customer_id);
+
+Alter Table expenses Add Foreign Key(user_id) REFERENCES users(user_id);
+
+Alter Table orders Add Foreign Key(customer_id) REFERENCES customer(customer_id);
+
+/*Unique*/
+ALTER TABLE customer ADD UNIQUE (customer_mobilephone);
+ALTER TABLE customer ADD UNIQUE (customer_email);
+
+ALTER TABLE cheque ADD UNIQUE (bank_name,cheque_no);
+
+ALTER TABLE supplier ADD UNIQUE (supplier_mobilephone);
+ALTER TABLE supplier ADD UNIQUE (supplier_email);
+ALTER TABLE supplier ADD UNIQUE (supplier_panno);
+ALTER TABLE supplier ADD UNIQUE (supplier_homepage);
+
+/*Alter Table ird Add Foreign Key(customer_panno) REFERENCES customer(customer_panno);*/
